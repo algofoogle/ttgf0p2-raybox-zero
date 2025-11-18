@@ -9,12 +9,14 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+TBC -- See https://github.com/algofoogle/ttcad25a-raybox-zero for now, and you'll get the general gist.
 
 ## How to test
 
-Explain how to use your project
+TBC -- It produces a digital RGB222 output on `uo_out`, compatible with Leo Moser's Tiny VGA.
+
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+TBC -- Besides the Tiny VGA, you could also use the Tiny QSPI PMOD.
+

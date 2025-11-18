@@ -36,7 +36,7 @@ Test parameters (can be overridden using ENV vars):
 def check_uio_out(dut):
     # Make sure 2 LSB are outputs,
     # and all but [5] (bidir) of the rest are inputs:
-    assert re.match('000010.1', dut.uio_oe.value.binstr)
+    assert re.match('000010.1', str(dut.uio_oe.value))
 
 # This can represent hard-wired stuff:
 def set_default_start_state(dut):
@@ -413,12 +413,12 @@ async def test_frames(dut):
             for n in range(int(hrange*hres)): # 800 pixel clocks per line.
                 if n % 100 == 0:
                     print('.', end='')
-                if 'x' in dut.rgb.value.binstr:
+                if 'x' in str(dut.rgb.value):
                     # Output is unknown; make it green:
                     r = 0
                     g = 255
                     b = 0
-                elif 'z' in dut.rgb.value.binstr:
+                elif 'z' in str(dut.rgb.value):
                     # Output is HiZ; make it magenta:
                     r = 255
                     g = 0
@@ -427,15 +427,15 @@ async def test_frames(dut):
                     rr = dut.rr.value
                     gg = dut.gg.value
                     bb = dut.bb.value
-                    hsyncb = 255 if dut.hsync_n.value.binstr=='x' else (0==dut.hsync_n.value)*0b110000
-                    vsyncb = 128 if dut.vsync_n.value.binstr=='x' else (0==dut.vsync_n.value)*0b110000
+                    hsyncb = 255 if str(dut.hsync_n.value)=='x' else (0==dut.hsync_n.value)*0b110000
+                    vsyncb = 128 if str(dut.vsync_n.value)=='x' else (0==dut.vsync_n.value)*0b110000
                     r = (rr << 6) | hsyncb
                     g = (gg << 6) | vsyncb
                     b = (bb << 6)
                 sample_count += 1
-                if 'x' in (dut.rgb.value.binstr + dut.hsync_n.value.binstr + dut.vsync_n.value.binstr):
+                if 'x' in (str(dut.rgb.value) + str(dut.hsync_n.value) + str(dut.vsync_n.value)):
                     x_count += 1
-                if 'z' in (dut.rgb.value.binstr + dut.hsync_n.value.binstr + dut.vsync_n.value.binstr):
+                if 'z' in (str(dut.rgb.value) + str(dut.hsync_n.value) + str(dut.vsync_n.value)):
                     z_count += 1
                 img.write(f"{r} {g} {b}\n")
                 if HIGH_RES is None:

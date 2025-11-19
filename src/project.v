@@ -18,7 +18,11 @@ module tt_um_algofoogle_raybox_zero (
 );
 
   // List all unused inputs to prevent warnings
+`ifdef NO_EXTERNAL_TEXTURES
+  wire _unused = &{uio_in[7:0], ena, 1'b0};
+`else // !NO_EXTERNAL_TEXTURES
   wire _unused = &{uio_in[3], uio_in[0], ena, 1'b0};
+`endif // NO_EXTERNAL_TEXTURES
 
   wire  [5:0] rgb;
   wire        vsync_n, hsync_n;
@@ -41,11 +45,11 @@ module tt_um_algofoogle_raybox_zero (
   wire inc_px         = ui_in[4];
   wire inc_py         = ui_in[5];
   wire i_reg          = ui_in[6];
+`ifndef NO_EXTERNAL_TEXTURES
   wire tex_pmod_type  = ui_in[7];
   //NOTE: For tex_pmod_type:
   //   0=Moser's QSPI PMOD; can have a weak pull-up on uio[5] (io3), and ensure io3 bits are 1 in ROM to avoid GEN_TEXb. NOTE: Looks like there are jumpers to enable/disable the chips...?
   //   1=Digilent SPI PMOD; hence expect uio[5] (RSTb) is weakly pulled up anyway, but can be pulled low for GEN_TEXb instead.
-
   wire tex_csb;
   wire tex_out0;
   wire tex_oeb0;
@@ -65,10 +69,10 @@ module tt_um_algofoogle_raybox_zero (
       uio_in[2],
       uio_in[1]
     };
-
   wire gen_tex = tex_pmod_type ?
     ~uio_in[5] :  // gen_tex (actually gen_texb) can be used in 'Digilent SPI PMOD'-mode.
     1'b0;         // Disable gen_tex when using Moser's QSPI PMOD.
+`endif // NO_EXTERNAL_TEXTURES
 
   assign uo_out = i_reg ? registered_vga_output : unregistered_vga_output;
 
@@ -77,24 +81,35 @@ module tt_um_algofoogle_raybox_zero (
     .reset      (~rst_n),
 
     // SPI peripheral for POV and REG access:
+    //SMELL: Fix alternate support for NOT USE_POV_VIA_SPI_REGS:
     .i_reg_sclk (spi_sclk),
     .i_reg_mosi (spi_mosi),
     .i_reg_ss_n (spi_csb),
 
+`ifndef NO_EXTERNAL_TEXTURES
     // SPI controller interface for reading SPI flash memory (i.e. textures):
     .o_tex_csb  (tex_csb),
     .o_tex_sclk (tex_sclk),
     .o_tex_out0 (tex_out0),
     .o_tex_oeb0 (tex_oeb0), // Direction control for io[0] (WARNING: OEb, not OE).
     .i_tex_in   (tex_in), //NOTE: io[3] is unused, currently.
-    
+`endif // NO_EXTERNAL_TEXTURES
+
+`ifdef USE_MAP_OVERLAY
     // Debug/demo signals:
     .i_debug_m  (debug), // Map debug overlay
+`endif // USE_MAP_OVERLAY
+`ifdef TRACE_STATE_DEBUG
     .i_debug_t  (debug), // Trace debug overlay
+`endif // TRACE_STATE_DEBUG
+`ifdef USE_DEBUG_OVERLAY
     .i_debug_v  (debug), // Vectors debug overlay
+`endif // USE_DEBUG_OVERLAY
     .i_inc_px   (inc_px),
     .i_inc_py   (inc_py),
+`ifndef NO_EXTERNAL_TEXTURES
     .i_gen_tex  (gen_tex), // 1=Use bitwise-generated textures instead of SPI texture memory.
+`endif // NO_EXTERNAL_TEXTURES
     // .o_vinf     (vinf),
     // .o_hmax     (hmax),
     // .o_vmax     (vmax),
@@ -109,6 +124,10 @@ module tt_um_algofoogle_raybox_zero (
   );
 
   // 1 = output, 0 = input:
+`ifdef NO_EXTERNAL_TEXTURES
+  assign uio_oe = 8'b0000_0000;
+  assign uio_out = 8'b0000_0000;
+`else // !NO_EXTERNAL_TEXTURES
   //NOTE: Only uio_oe[7:6] directions are different between these two sets,
   // but both are included in full to help highlight their pin differences.
   assign uio_oe = 
@@ -134,7 +153,6 @@ module tt_um_algofoogle_raybox_zero (
       ~tex_oeb0,  // uio[1]: tex_io0        BIDIRECTIONAL. Inverted; rbzero gives OEb, need OE.
       1'b1        // uio[0]: tex_csb        OUTPUT.
     };
-
   assign uio_out =
     tex_pmod_type ?
     {
@@ -158,6 +176,7 @@ module tt_um_algofoogle_raybox_zero (
       tex_out0,   // uio[1]: tex_io0 (BIDIR)
       tex_csb     // uio[0]: tex_csb
     };
+`endif // NO_EXTERNAL_TEXTURES
 
 endmodule
 

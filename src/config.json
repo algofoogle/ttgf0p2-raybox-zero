@@ -33,6 +33,8 @@
 
   "SYNTH_STRATEGY": "DELAY 4",
 
+  "FALLBACK_SDC_FILE": "dir::raybox_zero.sdc",
+
   "//": "Configuration docs: https://librelane.readthedocs.io/en/latest/reference/configuration.html",
 
   "//": "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",

@@ -424,9 +424,9 @@ async def test_frames(dut):
                     g = 0
                     b = 255
                 else:
-                    rr = dut.rr.value
-                    gg = dut.gg.value
-                    bb = dut.bb.value
+                    rr = int(dut.rr.value)
+                    gg = int(dut.gg.value)
+                    bb = int(dut.bb.value)
                     hsyncb = 255 if str(dut.hsync_n.value)=='x' else (0==dut.hsync_n.value)*0b110000
                     vsyncb = 128 if str(dut.vsync_n.value)=='x' else (0==dut.vsync_n.value)*0b110000
                     r = (rr << 6) | hsyncb

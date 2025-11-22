@@ -413,12 +413,12 @@ async def test_frames(dut):
             for n in range(int(hrange*hres)): # 800 pixel clocks per line.
                 if n % 100 == 0:
                     print('.', end='')
-                if 'x' in str(dut.rgb.value):
+                if 'x' in str(dut.rgb.value).lower():
                     # Output is unknown; make it green:
                     r = 0
                     g = 255
                     b = 0
-                elif 'z' in str(dut.rgb.value):
+                elif 'z' in str(dut.rgb.value).lower():
                     # Output is HiZ; make it magenta:
                     r = 255
                     g = 0
@@ -427,15 +427,15 @@ async def test_frames(dut):
                     rr = int(dut.rr.value)
                     gg = int(dut.gg.value)
                     bb = int(dut.bb.value)
-                    hsyncb = 255 if str(dut.hsync_n.value)=='x' else (0==dut.hsync_n.value)*0b110000
-                    vsyncb = 128 if str(dut.vsync_n.value)=='x' else (0==dut.vsync_n.value)*0b110000
+                    hsyncb = 255 if str(dut.hsync_n.value).lower()=='x' else (0==dut.hsync_n.value)*0b110000
+                    vsyncb = 128 if str(dut.vsync_n.value).lower()=='x' else (0==dut.vsync_n.value)*0b110000
                     r = (rr << 6) | hsyncb
                     g = (gg << 6) | vsyncb
                     b = (bb << 6)
                 sample_count += 1
-                if 'x' in (str(dut.rgb.value) + str(dut.hsync_n.value) + str(dut.vsync_n.value)):
+                if 'x' in (str(dut.rgb.value) + str(dut.hsync_n.value) + str(dut.vsync_n.value)).lower():
                     x_count += 1
-                if 'z' in (str(dut.rgb.value) + str(dut.hsync_n.value) + str(dut.vsync_n.value)):
+                if 'z' in (str(dut.rgb.value) + str(dut.hsync_n.value) + str(dut.vsync_n.value)).lower():
                     z_count += 1
                 img.write(f"{r} {g} {b}\n")
                 if HIGH_RES is None:

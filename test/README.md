@@ -14,6 +14,14 @@ For other background on this, see [0197], [0198], and [0204].
 
 ## More information
 
+> [!NOTE]
+> You might need to do something like this:
+>
+> ```bash
+> cd $PDK_ROOT
+> ln -s "$(ls -d1 ciel/gf180mcu/versions/* | head -1)"/gf180mcuD gf180mcuD
+> ```
+
 [0204] now probably has my most comprehensive notes on how to set up your environment for local hardening (on sky130 Tiny Tapeout, at least) and testing. Note that it includes lots of stuff from my original TT04 re-testing, but further down on the page are the additional details that work for this repo and TT07.
 
 If you run `make clean && make -B` it will run the RTL test. These render frames on my machine at about 26 seconds each.

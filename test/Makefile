@@ -10,6 +10,7 @@ PROJECT_SOURCES = \
 	rbz_options.v								\
 	raybox-zero/src/rtl/fixed_point_params.v	\
 	raybox-zero/src/rtl/helpers.v				\
+	raybox-zero/src/rtl/doors.v					\
 	raybox-zero/src/rtl/debug_overlay.v			\
 	raybox-zero/src/rtl/lzc.v					\
 	raybox-zero/src/rtl/map_overlay.v			\
@@ -24,8 +25,6 @@ PROJECT_SOURCES = \
 	raybox-zero/src/rtl/rbzero.v				\
 	raybox-zero/src/rtl/top_raybox_zero_fsm.v	\
 	project.v
-# Put doors.v under helpers.v, if pulling in that extra code:
-#	raybox-zero/src/rtl/doors.v
 
 ifneq ($(GATES),yes)
 

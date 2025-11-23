@@ -78,7 +78,7 @@ class SPI:
     async def spi_tick(self):
         # SPI interface expected to be stable at up to 20% of clock speed:
         #@@@SMELL: Need some jitter:
-        await Timer(CLOCK_PERIOD*5.0, units='ns')
+        await Timer(CLOCK_PERIOD*5.0, unit='ns')
 
     async def txn_start(self):
         self.csb.value = 1
@@ -199,7 +199,7 @@ async def test_frames(dut):
     # Start with reset released:
     dut.rst_n.value = 1
 
-    clk = Clock(dut.clk, CLOCK_PERIOD, units="ns")
+    clk = Clock(dut.clk, CLOCK_PERIOD, unit="ns")
     cocotb.start_soon(clk.start())
 
     # Wait 3 clocks...
@@ -441,7 +441,7 @@ async def test_frames(dut):
                 if HIGH_RES is None:
                     await ClockCycles(dut.clk, 1) 
                 else:
-                    await Timer(CLOCK_PERIOD/hres, units='ns')
+                    await Timer(CLOCK_PERIOD/hres, unit='ns')
         img.close()
         render_stop_time = time.time()
         delta = render_stop_time - render_start_time

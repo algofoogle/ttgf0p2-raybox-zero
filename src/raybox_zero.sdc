@@ -93,3 +93,14 @@ set_false_path -through rbzero.wall_tracer.rcp_fsm.operand*
 # set_false_path -from [get_ports {ui_in[5]}]
 # set_false_path -from [get_ports {ui_in[6]}]
 # set_false_path -from [get_ports {ui_in[7]}]
+
+#ANTON: This specifies that STA should assume outputs are ALWAYS
+# registered. We might still choose to test it with unregistered
+# outputs, but if it doesn't work: no worries. Registered is still best :)
+set_case_analysis 1 [get_ports {ui_in[6]}]
+
+#ANTON: More stuff that is assumed not to change, typically:
+set_case_analysis 0 [get_ports {ui_in[3]}] ; # debug
+set_case_analysis 0 [get_ports {ui_in[4]}] ; # inc_px
+set_case_analysis 0 [get_ports {ui_in[5]}] ; # inc_py
+set_case_analysis 0 [get_ports {ui_in[7]}] ; # tex_pmod_type=>Tiny VGA

@@ -3,7 +3,7 @@ project:
   title:        "raybox-zero TTGF0p2 edition"
   author:       "algofoogle (Anton Maurovic)"
   discord:      "algofoogle"
-  description:  "TTGF0p2 v1.7 submission of 'simple VGA ray caster game demo' from TT07/TTCAD25a"
+  description:  "TTGF0p2 v1.8-dev submission of 'simple VGA ray caster game demo' from TT07/TTCAD25a"
   language:     "Verilog"
   clock_hz:     25_175_000  # Clock frequency in Hz (or 0 if not applicable)
 
@@ -20,6 +20,7 @@ project:
     - rbz_options.v
     - raybox-zero/src/rtl/fixed_point_params.v
     - raybox-zero/src/rtl/helpers.v
+    - raybox-zero/src/rtl/doors.v
     - raybox-zero/src/rtl/rbzero.v
     - raybox-zero/src/rtl/spi_registers.v
     - raybox-zero/src/rtl/debug_overlay.v

@@ -394,10 +394,22 @@ async def test_frames(dut):
         if DEMO_MODE:
             pass
 
+        # GENERATED TEXTURES:
+        elif frame == 0:
+            # Turn on gen_tex (disable texture ROM; use generated textures instead):
+            dut.gen_texb.value = 0 #NOTE: Immediate, so takes effect ON frame 0, not 1.
+
+        # EXTERNAL TEXTURES:
+        elif frame == 1:
+            # Turn off gen_tex (enable texture ROM):
+            dut.gen_texb.value = 1 #NOTE: Immediate, so takes effect ON frame 1.
+
+        # GENERATED TEXTURES:
         elif frame == 12:
             # Turn on gen_tex (disable texture ROM; use generated textures instead):
-            dut.gen_texb.value = 0 #NOTE: Immediate, so takes effect ON frame 10, not 11.
+            dut.gen_texb.value = 0 #NOTE: Immediate, so takes effect ON frame 12.
 
+        # EXTERNAL TEXTURES:
         elif frame == 13:
             # Turn off gen_tex (enable texture ROM):
             dut.gen_texb.value = 1 #NOTE: Immediate, so takes effect ON frame 13.

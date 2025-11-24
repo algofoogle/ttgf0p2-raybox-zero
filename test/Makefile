@@ -34,6 +34,7 @@ VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
 COMPILE_ARGS 		+= -I$(SRC_DIR)
 # Extra include dir hacked in for raybox-zero submodule:
 COMPILE_ARGS 		+= -I$(SRC_DIR)/raybox-zero/src/rtl
+COMPILE_ARGS		+= -DCOCOTB_RTL_SIM
 
 else
 

@@ -38,6 +38,9 @@
 
   "SYNTH_STRATEGY": "AREA 0",
 
+  "//": "See: https://docs.google.com/document/d/1jBEVIaJ-aHHCHdi0UkywBGI12t8xboSS9dc_S54TwE8/edit?tab=t.0",
+  "DRT_ANTENNA_REPAIR_ITERS": 1,
+
   "FALLBACK_SDC_FILE": "dir::raybox_zero.sdc",
 
   "//": "Configuration docs: https://librelane.readthedocs.io/en/latest/reference/configuration.html",
